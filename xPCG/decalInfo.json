@@ -1,0 +1,71 @@
+{
+  "Info": [
+    {
+      "decalType": "crack_center",
+      "layer": 2,
+      "version": 1,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/myCrackDecal2_2K_Opacity.TGA",
+      "uScale": 1,
+      "vScale": 1
+    },
+    {
+      "decalType": "crack_center",
+      "layer": 2,
+      "version": 2,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/myCrackDecal2_2K_Opacity.TGA",
+      "uScale": 1,
+      "vScale": 1
+    },
+    {
+      "decalType": "crack_center",
+      "layer": 2,
+      "version": 3,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/myCrackDecal3_2K_Opacity.TGA",
+      "uScale": 1,
+      "vScale": 1
+    },
+    
+    {
+      "decalType": "crack",
+      "layer": 2,
+      "version": 1,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/sfwndfg_2K_Opacity.jpg",
+      "uScale": 1.3,
+      "vScale": 5.2
+    },
+    {
+      "decalType": "crack",
+      "layer": 2,
+      "version": 2,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/sfxmang_2K_Opacity.jpg",
+      "uScale": 1.5,
+      "vScale": 6.0
+    },
+    {
+      "decalType": "crack",
+      "layer": 2,
+      "version": 3,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/sezrfcg_2K_Opacity.jpg",
+      "uScale": 1.5,
+      "vScale": 3.0
+    },
+    {
+      "decalType": "crack",
+      "layer": 2,
+      "version": 4,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/sfwndfg_2K_Opacity.jpg",
+      "uScale": 1.5,
+      "vScale": 6.0
+    },
+    {
+      "decalType": "crack",
+      "layer": 2,
+      "version": 5,
+      "mask": "D:/work/proj 4.23 - 60/crackMask/se4otkg_2K_Opacity.jpg",
+      "uScale": 3.0,
+      "vScale": 6.0
+    }
+
+
+  ]
+}
