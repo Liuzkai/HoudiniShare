@@ -1,0 +1,26 @@
+Required Assets
+---------------
+	Rockies-small-FLT.txt - contains USGS data download links
+	peaksandvalleys.hda - generates peaks and valley based on heightfield
+	damienp_calcwatermask.hda - calculates mask to account for bodies of water
+	damienp_peaksandvalleyexporter.hda - exports sketch
+	damienp_terrain_resample.hda - resamples/resizes spacing in tile
+	damienp_terrain_splitter.hda - splits the large terrain into smaller tiles
+	validate_terrain_tile.hda - removes outliers based on height and coverage
+
+
+How to Use
+----------
+	Open PDG-ML-TrainingData-DL.hip and make sure the provided assets are correctly installed (Assets -> Install Asset Library) 
+
+	Navigate to obj/TOP_PDG_ML_TrainingData and cook the imagemagick node.
+
+
+Architecture Notes
+------------------
+	This file contains a full data preprocessing pipeline targeted towards machine learning. From top to bottom, it captures data downloading, extracting, resizing, processing, validation, and saving.
+
+
+Additional Notes
+----------------
+	Outputs at every stage of the pipeline are saved to the disk. The final output directory containing the skecth-heightfield pairs will be in /montage.

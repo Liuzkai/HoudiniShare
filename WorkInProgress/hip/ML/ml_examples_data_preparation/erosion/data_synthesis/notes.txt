@@ -1,0 +1,40 @@
+Required Assets
+---------------
+	non_eroded_terrain.hda - generates an uneroded terrain
+	erode_base_terrain.hda - applies erosion to an existing terrain
+
+
+Optional Assets
+---------------
+	detailing_eroded_terrain.hda - adds details (eg. additional layers) to eroded terrain. This is not required to synthesize the data.
+
+
+How to Use
+----------
+	Open erosion_synthesis.hip and make sure the provided assets are correctly installed (Assets -> Install Asset Library) 
+
+	Navigate to obj/topnet1 and cook the imagemagick node.
+
+
+Architecture Notes
+------------------
+	The essential nodes in this example of data synthesis are obj/topnet1 and obj/left_terrain. 
+	The additional nodes such as the plant scattering nodes provide visual augmentation, but are not necessary to generate terrain data.
+
+	The TOP network in obj/topnet1 works with obj/left_terrain to generate the data. 
+	First, a wedge creates variations of the variable "TERRAIN_OFFSET." This variable is used in obj/left_terrain/non_eroded_terrain to subsequently create variations of uneroded terrain. 
+	The ROP Geometry Output pulls on obj/left_terrain/non_eroded/terrain to cook the geometry and export the terrains as bgeo.sc files. 
+
+	Next, two ROP Fetches respectively pull on two Heightfield Output nodes in obj/left_terrain. 
+	These fetches each trigger the File Cache node which loads the produced bgeo.sc files from the disk, to ultimately produce heightfield pairs (uneroded and eroded). 
+
+	Lastly, these pairs are partitioned and montaged with an imagemagick node.
+
+
+Additional Notes
+----------------
+	Examples of both exr and jpg are presented in /sample_output. Results should be similar to these.
+
+	Change the parameter that uses "TERRAIN_OFFSET" in obj/left_terrain/non_eroded_terrain to experiment with different variations of uneroded terrain.
+	
+	

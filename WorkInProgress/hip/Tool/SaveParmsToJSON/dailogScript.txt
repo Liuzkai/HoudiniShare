@@ -1,0 +1,794 @@
+{
+    "name"        "parameters"
+    group {
+        name    "stdswitcher4"
+        label   "Transform"
+
+        parm {
+            name    "xOrd"
+            label   "Transform Order"
+            type    ordinal
+            joinnext
+            default { "0" }
+            menu {
+                "srt"   "Scale Rot Trans"
+                "str"   "Scale Trans Rot"
+                "rst"   "Rot Scale Trans"
+                "rts"   "Rot Trans Scale"
+                "tsr"   "Trans Scale Rot"
+                "trs"   "Trans Rot Scale"
+            }
+        }
+        parm {
+            name    "rOrd"
+            label   "Rotate Order"
+            type    ordinal
+            nolabel
+            default { "0" }
+            menu {
+                "xyz"   "Rx Ry Rz"
+                "xzy"   "Rx Rz Ry"
+                "yxz"   "Ry Rx Rz"
+                "yzx"   "Ry Rz Rx"
+                "zxy"   "Rz Rx Ry"
+                "zyx"   "Rz Ry Rx"
+            }
+        }
+        parm {
+            name    "t"
+            label   "Translate"
+            type    vector
+            size    3
+            default { "0" "0" "0" }
+            range   { -1 1 }
+            export  all
+            parmtag { "autoscope" "1111111111111111111111111111111" }
+            parmtag { "script_action" "import objecttoolutils\nobjecttoolutils.matchTransform(kwargs, 0)" }
+            parmtag { "script_action_help" "Select an object to match the translation with." }
+            parmtag { "script_action_icon" "BUTTONS_match_transform" }
+        }
+        parm {
+            name    "r"
+            label   "Rotate"
+            type    vector
+            size    3
+            default { "0" "0" "0" }
+            range   { 0 360 }
+            export  all
+            parmtag { "autoscope" "1111111111111111111111111111111" }
+            parmtag { "script_action" "import objecttoolutils\nobjecttoolutils.matchTransform(kwargs, 1)" }
+            parmtag { "script_action_help" "Select an object to match the rotation with." }
+            parmtag { "script_action_icon" "BUTTONS_match_rotation" }
+        }
+        parm {
+            name    "s"
+            label   "Scale"
+            type    vector
+            size    3
+            default { "1" "1" "1" }
+            range   { -1 1 }
+            parmtag { "autoscope" "1111111111111111111111111111111" }
+            parmtag { "script_action" "import objecttoolutils\nobjecttoolutils.matchTransform(kwargs, 2)" }
+            parmtag { "script_action_help" "Select an object to match the scale with." }
+            parmtag { "script_action_icon" "BUTTONS_match_scale" }
+        }
+        parm {
+            name    "p"
+            label   "Pivot Translate"
+            type    vector
+            size    3
+            default { "0" "0" "0" }
+            value   { }
+            range   { -1 1 }
+            parmtag { "script_action" "import objecttoolutils\nobjecttoolutils.matchTransform(kwargs, 3)" }
+            parmtag { "script_action_help" "Select an object to match the pivot with." }
+            parmtag { "script_action_icon" "BUTTONS_match_pivot" }
+        }
+        parm {
+            name    "pr"
+            label   "Pivot Rotate"
+            type    vector
+            size    3
+            default { "0" "0" "0" }
+            range   { -1 1 }
+            parmtag { "script_action" "import objecttoolutils\nobjecttoolutils.matchTransform(kwargs, 4)" }
+            parmtag { "script_action_help" "Select an object to match the pivot rotation with." }
+            parmtag { "script_action_icon" "BUTTONS_match_pivot_rotation" }
+        }
+        parm {
+            name    "scale"
+            label   "Uniform Scale"
+            type    float
+            default { "1" }
+            range   { 0 10 }
+        }
+        parm {
+            name    "pre_xform"
+            label   "Modify Pre-Transform"
+            type    button
+            default { "0" }
+            menureplace {
+                "clean"         "Clean Transform"
+                "cleantrans"    "Clean Translates"
+                "cleanrot"      "Clean Rotates"
+                "cleanscales"   "Clean Scales"
+                "extract"       "Extract Pre-transform"
+                "reset"         "Reset Pre-transform"
+            }
+        }
+        parm {
+            name    "keeppos"
+            label   "Keep Position When Parenting"
+            type    toggle
+            default { "0" }
+        }
+        parm {
+            name    "childcomp"
+            label   "Child Compensation"
+            type    toggle
+            default { "0" }
+        }
+        parm {
+            name    "constraints_on"
+            label   "Enable Constraints"
+            type    toggle
+            default { "0" }
+        }
+        parm {
+            name    "constraints_path"
+            label   "Constraints"
+            type    oppath
+            default { "" }
+            hidewhen "{ constraints_on == 0 }"
+            parmtag { "opfilter" "!!CHOP" }
+            parmtag { "oprelative" "." }
+            parmtag { "script_action" "import objecttoolutils\nobjecttoolutils.constraintsMenu(kwargs)" }
+            parmtag { "script_action_help" "" }
+            parmtag { "script_action_icon" "BUTTONS_add_constraints" }
+        }
+        parm {
+            name    "lookatpath"
+            label   "Look At"
+            type    oppath
+            invisible
+            default { "" }
+            parmtag { "opfilter" "!!OBJ!!" }
+            parmtag { "oprelative" "." }
+        }
+        parm {
+            name    "lookupobjpath"
+            label   "Look Up Object"
+            type    oppath
+            invisible
+            default { "" }
+            parmtag { "opfilter" "!!OBJ!!" }
+            parmtag { "oprelative" "." }
+        }
+        parm {
+            name    "lookup"
+            label   "Look At Up Vector"
+            type    string
+            invisible
+            default { "on" }
+            menu {
+                "off"   "Don't Use Up Vector"
+                "on"    "Use Up Vector"
+                "quat"  "Use Quaternions"
+                "pos"   "Use Global Position"
+                "obj"   "Use Up Object"
+            }
+        }
+        parm {
+            name    "pathobjpath"
+            label   "Path Object"
+            type    oppath
+            invisible
+            default { "" }
+            parmtag { "opfilter" "!!SOP!!" }
+            parmtag { "oprelative" "." }
+        }
+        parm {
+            name    "roll"
+            label   "Roll"
+            type    angle
+            invisible
+            default { "0" }
+            range   { -360 360 }
+        }
+        parm {
+            name    "pos"
+            label   "Position"
+            type    float
+            invisible
+            default { "0" }
+            range   { 0! 10 }
+        }
+        parm {
+            name    "uparmtype"
+            label   "Parameterization"
+            type    ordinal
+            invisible
+            default { "1" }
+            menu {
+                "uniform"   "Uniform"
+                "arc"       "Arc Length"
+            }
+        }
+        parm {
+            name    "pathorient"
+            label   "Orient Along Path"
+            type    integer
+            invisible
+            default { "1" }
+            range   { 0 1 }
+        }
+        parm {
+            name    "up"
+            label   "Orient Up Vector"
+            type    direction
+            invisible
+            size    3
+            default { "0" "1" "0" }
+            range   { 0 1 }
+        }
+        parm {
+            name    "bank"
+            label   "Auto-Bank factor"
+            type    float
+            invisible
+            default { "0" }
+            range   { -1 1 }
+        }
+    }
+
+    group {
+        name    "stdswitcher4_1"
+        label   "Render"
+
+        parm {
+            name    "shop_materialpath"
+            label   "Material"
+            type    oppath
+            default { "" }
+            parmtag { "opfilter" "!!CUSTOM/MATERIAL!!" }
+            parmtag { "oprelative" "." }
+        }
+        parm {
+            name    "shop_materialopts"
+            label   "Options"
+            type    button
+            invisible
+            default { "0" }
+        }
+        parm {
+            name    "tdisplay"
+            label   "Display"
+            type    toggle
+            joinnext
+            default { "0" }
+        }
+        parm {
+            name    "display"
+            label   "Display"
+            type    integer
+            default { "1" }
+            range   { 0! 1! }
+        }
+        parm {
+            name    "viewportlod"
+            label   "Display As"
+            type    ordinal
+            default { "full" }
+            help    "Choose how the object's geometry should be rendered in the viewport"
+            menu {
+                "full"      "Full Geometry"
+                "points"    "Point Cloud"
+                "box"       "Bounding Box"
+                "centroid"  "Centroid"
+                "hidden"    "Hidden"
+                "subd"      "Subdivision Surface / Curves"
+            }
+            parmtag { "spare_category" "Render" }
+        }
+        parm {
+            name    "vm_rendervisibility"
+            label   "Render Visibility"
+            type    string
+            default { "*" }
+            menureplace {
+                "*"                             "Visible to all"
+                "primary"                       "Visible only to primary rays"
+                "primary|shadow"                "Visible only to primary and shadow rays"
+                "-primary"                      "Invisible to primary rays (Phantom)"
+                "-diffuse"                      "Invisible to diffuse rays"
+                "-diffuse&-reflect&-refract"    "Invisible to secondary rays"
+                ""                              "Invisible (Unrenderable)"
+            }
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "rendervisibility" }
+            parmtag { "spare_category" "Render" }
+        }
+        parm {
+            name    "vm_rendersubd"
+            label   "Render Polygons As Subdivision (Mantra)"
+            type    toggle
+            default { "0" }
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "rendersubd" }
+            parmtag { "spare_category" "Geometry" }
+        }
+        parm {
+            name    "vm_subdstyle"
+            label   "Subdivision Style"
+            type    string
+            default { "mantra_catclark" }
+            hidewhen "{ vm_rendersubd == 0 }"
+            menu {
+                "mantra_catclark"   "Mantra Catmull-Clark"
+                "osd_catclark"      "OpenSubdiv Catmull-Clark"
+            }
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "subdstyle" }
+            parmtag { "spare_category" "Geometry" }
+        }
+        parm {
+            name    "vm_subdgroup"
+            label   "Subdivision Group"
+            type    string
+            default { "" }
+            hidewhen "{ vm_rendersubd == 0 }"
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "subdgroup" }
+            parmtag { "spare_category" "Geometry" }
+        }
+        parm {
+            name    "vm_osd_quality"
+            label   "Open Subdiv Quality"
+            type    float
+            default { "1" }
+            hidewhen "{ vm_rendersubd == 0 vm_subdstyle != osd_catclark }"
+            range   { 0 10 }
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "osd_quality" }
+            parmtag { "spare_category" "Geometry" }
+        }
+        parm {
+            name    "vm_osd_vtxinterp"
+            label   "OSD Vtx Interp"
+            type    integer
+            default { "2" }
+            hidewhen "{ vm_rendersubd == 0 vm_subdstyle != osd_catclark }"
+            menu {
+                "0" "No vertex interpolation"
+                "1" "Edges only"
+                "2" "Edges and Corners"
+            }
+            range   { 0 10 }
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "osd_vtxinterp" }
+            parmtag { "spare_category" "Geometry" }
+        }
+        parm {
+            name    "vm_osd_fvarinterp"
+            label   "OSD FVar Interp"
+            type    integer
+            default { "4" }
+            hidewhen "{ vm_rendersubd == 0 vm_subdstyle != osd_catclark }"
+            menu {
+                "0" "Smooth everywhere"
+                "1" "Sharpen corners only"
+                "2" "Sharpen edges and corners"
+                "3" "Sharpen edges and propagated corners"
+                "4" "Sharpen all boundaries"
+                "5" "Bilinear interpolation"
+            }
+            range   { 0 10 }
+            parmtag { "mantra_class" "object" }
+            parmtag { "mantra_name" "osd_fvarinterp" }
+            parmtag { "spare_category" "Geometry" }
+        }
+        group {
+            name    "folder0"
+            label   "Shading"
+
+            parm {
+                name    "categories"
+                label   "Categories"
+                type    string
+                default { "" }
+                help    "A list of tags which can be used to select the object"
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "reflectmask"
+                label   "Reflection Mask"
+                type    oplist
+                default { "*" }
+                help    "Objects that will be reflected on this object."
+                parmtag { "opexpand" "1" }
+                parmtag { "opfilter" "!!OBJ/GEOMETRY!!" }
+                parmtag { "oprelative" "/obj" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "refractmask"
+                label   "Refraction Mask"
+                type    oplist
+                default { "*" }
+                help    "Objects that will be refracted on this object."
+                parmtag { "opexpand" "1" }
+                parmtag { "opfilter" "!!OBJ/GEOMETRY!!" }
+                parmtag { "oprelative" "/obj" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "lightmask"
+                label   "Light Mask"
+                type    oplist
+                default { "*" }
+                help    "Lights that illuminate this object."
+                parmtag { "opexpand" "1" }
+                parmtag { "opfilter" "!!OBJ/LIGHT!!" }
+                parmtag { "oprelative" "/obj" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "lightcategories"
+                label   "Light Selection"
+                type    string
+                default { "*" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "vm_lpetag"
+                label   "LPE Tag"
+                type    string
+                default { "" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "lpetag" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "vm_volumefilter"
+                label   "Volume Filter"
+                type    string
+                default { "box" }
+                menu {
+                    "box"       "Box Filter"
+                    "gaussian"  "Gaussian"
+                    "bartlett"  "Bartlett (triangle)"
+                    "catrom"    "Catmull-Rom"
+                    "hanning"   "Hanning"
+                    "blackman"  "Blackman"
+                    "sinc"      "Sinc (sharpening)"
+                }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "filter" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "vm_volumefilterwidth"
+                label   "Volume Filter Width"
+                type    float
+                default { "1" }
+                range   { 0.001 5 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "filterwidth" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "vm_matte"
+                label   "Matte shading"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "matte" }
+                parmtag { "spare_category" "Shading" }
+            }
+            parm {
+                name    "vm_rayshade"
+                label   "Raytrace Shading"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "rayshade" }
+                parmtag { "spare_category" "Shading" }
+            }
+        }
+
+        group {
+            name    "folder0_1"
+            label   "Sampling"
+
+            parm {
+                name    "geo_velocityblur"
+                label   "Geometry Velocity Blur"
+                type    ordinal
+                default { "off" }
+                disablewhen "{ allowmotionblur == 0 }"
+                menu {
+                    "off"       "No Velocity Blur"
+                    "on"        "Velocity Blur"
+                    "accelblur" "Acceleration Blur"
+                }
+            }
+            parm {
+                name    "geo_accelattribute"
+                label   "Acceleration Attribute"
+                type    string
+                default { "accel" }
+                hidewhen "{ geo_velocityblur != accelblur }"
+                parmtag { "spare_category" "Sampling" }
+            }
+        }
+
+        group {
+            name    "folder0_2"
+            label   "Dicing"
+
+            parm {
+                name    "vm_shadingquality"
+                label   "Shading Quality"
+                type    float
+                default { "1" }
+                range   { 0 10 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "shadingquality" }
+                parmtag { "spare_category" "Dicing" }
+            }
+            parm {
+                name    "vm_flatness"
+                label   "Dicing Flatness"
+                type    float
+                default { "0.05" }
+                range   { 0 1 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "flatness" }
+                parmtag { "spare_category" "Dicing" }
+            }
+            parm {
+                name    "vm_raypredice"
+                label   "Ray Predicing"
+                type    integer
+                default { "0" }
+                menu {
+                    "0" "Disable Predicing"
+                    "1" "Full Predicing"
+                    "2" "Precompute Bounds"
+                }
+                range   { 0 10 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "raypredice" }
+                parmtag { "spare_category" "Dicing" }
+            }
+            parm {
+                name    "vm_curvesurface"
+                label   "Shade Curves As Surfaces"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "curvesurface" }
+                parmtag { "spare_category" "Dicing" }
+            }
+        }
+
+        group {
+            name    "folder0_3"
+            label   "Geometry"
+
+            parm {
+                name    "vm_rmbackface"
+                label   "Backface Removal"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "rmbackface" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "shop_geometrypath"
+                label   "Procedural Shader"
+                type    oppath
+                default { "" }
+                parmtag { "opfilter" "!!SHOP/GEOMETRY!!" }
+                parmtag { "oprelative" "." }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_forcegeometry"
+                label   "Force Procedural Geometry Output"
+                type    toggle
+                default { "1" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_rendersubdcurves"
+                label   "Render Polygon Curves As Subdivision (Mantra)"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "rendersubdcurves" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_renderpoints"
+                label   "Render As Points (Mantra)"
+                type    integer
+                default { "2" }
+                menu {
+                    "0" "No Point Rendering"
+                    "1" "Render Only Points"
+                    "2" "Render Unconnected Points"
+                }
+                range   { 0 10 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "renderpoints" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_renderpointsas"
+                label   "Render Points As (Mantra)"
+                type    integer
+                default { "0" }
+                disablewhen "{ vm_renderpoints == 0 }"
+                menu {
+                    "0" "Spheres"
+                    "1" "Circles"
+                }
+                range   { 0 10 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "renderpointsas" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_usenforpoints"
+                label   "Use N For Point Rendering"
+                type    toggle
+                default { "0" }
+                disablewhen "{ vm_renderpoints == 0 }"
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "usenforpoints" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_pointscale"
+                label   "Point Scale"
+                type    float
+                default { "1" }
+                disablewhen "{ vm_renderpoints == 0 }"
+                range   { 0! 10 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "pointscale" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_pscalediameter"
+                label   "Treat Point Scale as Diameter Instead of Radius"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "pscalediameter" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_metavolume"
+                label   "Metaballs as Volume"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "metavolume" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_coving"
+                label   "Coving"
+                type    integer
+                default { "1" }
+                menu {
+                    "0" "Disable Coving"
+                    "1" "Coving for displacement/sub-d"
+                    "2" "Coving for all primitives"
+                }
+                range   { 0 10 }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "coving" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_materialoverride"
+                label   "Material Override"
+                type    string
+                default { "compact" }
+                menu {
+                    "none"      "Disabled"
+                    "full"      "Evaluate for Each Primitve/Point"
+                    "compact"   "Evaluate Once"
+                }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_overridedetail"
+                label   "Ignore Geometry Attribute Shaders"
+                type    toggle
+                default { "0" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "overridedetail" }
+                parmtag { "spare_category" "Geometry" }
+            }
+            parm {
+                name    "vm_procuseroottransform"
+                label   "Proc Use Root Transform"
+                type    toggle
+                default { "1" }
+                parmtag { "mantra_class" "object" }
+                parmtag { "mantra_name" "procuseroottransform" }
+                parmtag { "spare_category" "Geometry" }
+            }
+        }
+
+    }
+
+    group {
+        name    "stdswitcher4_2"
+        label   "Misc"
+
+        parm {
+            name    "use_dcolor"
+            label   "Set Wireframe Color"
+            type    toggle
+            default { "0" }
+        }
+        parm {
+            name    "dcolor"
+            label   "Wireframe Color"
+            type    color
+            size    3
+            default { "1" "1" "1" }
+            range   { 0! 1! }
+        }
+        parm {
+            name    "picking"
+            label   "Viewport Selecting Enabled"
+            type    toggle
+            default { "1" }
+        }
+        parm {
+            name    "pickscript"
+            label   "Select Script"
+            type    file
+            default { "" }
+            parmtag { "filechooser_mode" "read" }
+        }
+        parm {
+            name    "caching"
+            label   "Cache Object Transform"
+            type    toggle
+            default { "1" }
+        }
+        parm {
+            name    "vport_shadeopen"
+            label   "Shade Open Curves In Viewport"
+            type    toggle
+            default { "0" }
+        }
+        parm {
+            name    "vport_displayassubdiv"
+            label   "Display as Subdivision in Viewport"
+            type    toggle
+            invisible
+            default { "0" }
+        }
+        parm {
+            name    "vport_onionskin"
+            label   "Onion Skinning"
+            type    ordinal
+            default { "0" }
+            menu {
+                "off"   "Off"
+                "xform" "Transform only"
+                "on"    "Full Deformation"
+            }
+        }
+    }
+
+}
