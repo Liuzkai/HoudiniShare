@@ -1,0 +1,8 @@
+newmtl pump_01_SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd pump_01_Diffuse.png
+bump pump_01_Normal.png -bm 1
+Ni 1.00
