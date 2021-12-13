@@ -1,6 +1,0 @@
-Houdini Pivot Painter 2.0 for tree
-1.In testtrees folder,there are some tree's fbx exported from speedTree,use to test
-2.There are some trees which exported from Houdini in the export folder
-3.You should install the assets in the otls folder first
-4.Change the parameters one by one ,step by step£¬these pivotpainter otl need huge memory to calculate
- 
